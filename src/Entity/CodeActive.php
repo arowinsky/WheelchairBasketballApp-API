@@ -5,9 +5,13 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CodeActiveRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"codeActive:read"}},
+ *     denormalizationContext={"groups"={"codeActive:write"}}
+ * )
  * @ORM\Entity(repositoryClass=CodeActiveRepository::class)
  */
 class CodeActive
@@ -20,7 +24,8 @@ class CodeActive
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255),
+     * @Groups({"codeActive:read","codeActive:write"})
      */
     private $code;
 

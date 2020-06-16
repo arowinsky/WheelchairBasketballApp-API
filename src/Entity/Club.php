@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *   @ApiResource( *     collectionOperations={"get","post"},
  *     itemOperations={"get","put","delete","patch"},
  *     normalizationContext={"groups"={"Club:read"}},
- *     denormalizationContext={"groups"={"Club:read"}},
+ *     denormalizationContext={"groups"={"Club:write"}},
  *     shortName="Club",
  *     attributes={"pagination_items_per_page"=10,
  *     "formats"={"jsonld","json","html"}
@@ -29,7 +29,7 @@ class Club
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"Club:read","Club:write"})
+     * @Groups({"Club:read"})
      */
     private $id;
 
