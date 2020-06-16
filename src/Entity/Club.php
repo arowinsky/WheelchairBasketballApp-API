@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ClubRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -46,6 +48,16 @@ class Club
      */
     private $city;
 
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="club")
+     */
+    private $User;
+
+    public function __construct()
+    {
+        $this->User = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +83,37 @@ class Club
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUser(): Collection
+    {
+        return $this->User;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->User->contains($user)) {
+            $this->User[] = $user;
+            $user->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->User->contains($user)) {
+            $this->User->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getClub() === $this) {
+                $user->setClub(null);
+            }
+        }
 
         return $this;
     }

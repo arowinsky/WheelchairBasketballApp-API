@@ -13,8 +13,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
- *     collectionOperations={"get","post"},
- *     itemOperations={"get","put","delete","patch"},
  *     normalizationContext={"groups"={"user:read"},"swagger_definition_name"="Read"},
  *     denormalizationContext={"groups"={"user:write"},"swagger_definition_name"="Write"},
  *     shortName="User",
@@ -36,46 +34,54 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"user:read","user:write"})
+     *@Groups({"user:read","user:write"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
-     * @Groups({"user:read","user:write"})
+     *@Groups({"user:read","user:write"})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Groups({"user:write"})
+     *@Groups({"user:write"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Groups({"user:read","user:write"})
+     *@Groups({"user:read","user:write"})
+     *
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Groups({"user:read","user:write"})
+     *@Groups({"user:read","user:write"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups({"user:read","user:write"})
+     *@Groups({"user:read","user:write"})
      */
     private $statusAccaunt;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups({"user:read","user:write"})
+     *@Groups({"user:read","user:write"})
      */
     private $statusPlayer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Club::class, inversedBy="User")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"user:read","user:write"})
+     */
+    private $club;
 
     public function getId(): ?int
     {
@@ -199,6 +205,18 @@ class User implements UserInterface
     public function setStatusPlayer(bool $statusPlayer): self
     {
         $this->statusPlayer = $statusPlayer;
+
+        return $this;
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(?Club $club): self
+    {
+        $this->club = $club;
 
         return $this;
     }
