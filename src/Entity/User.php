@@ -28,19 +28,19 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"user:read"})
+     * @Groups({"user:read","codeActive:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     *@Groups({"user:read","user:write"})
+     *@Groups({"user:read","user:write","codeActive:read"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
-     *@Groups({"user:read","user:write"})
+     *@Groups({"user:read","user:write",})
      */
     private $roles = [];
 
@@ -82,6 +82,11 @@ class User implements UserInterface
      * @Groups({"user:read","user:write"})
      */
     private $club;
+
+    /**
+     * @ORM\OneToOne(targetEntity=CodeActive::class, mappedBy="User", cascade={"persist", "remove"})
+     */
+    private $codeActive;
 
     public function getId(): ?int
     {
@@ -217,6 +222,23 @@ class User implements UserInterface
     public function setClub(?Club $club): self
     {
         $this->club = $club;
+
+        return $this;
+    }
+
+    public function getCodeActive(): ?CodeActive
+    {
+        return $this->codeActive;
+    }
+
+    public function setCodeActive(CodeActive $codeActive): self
+    {
+        $this->codeActive = $codeActive;
+
+        // set the owning side of the relation if necessary
+        if ($codeActive->getUser() !== $this) {
+            $codeActive->setUser($this);
+        }
 
         return $this;
     }

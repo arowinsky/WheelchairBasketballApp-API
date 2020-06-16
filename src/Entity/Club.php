@@ -12,7 +12,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- *   @ApiResource( *     collectionOperations={"get","post"},
+ *   @ApiResource(
+ *     collectionOperations={"get","post"},
  *     itemOperations={"get","put","delete","patch"},
  *     normalizationContext={"groups"={"Club:read"}},
  *     denormalizationContext={"groups"={"Club:write"}},
@@ -37,14 +38,14 @@ class Club
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"Club:read","Club:write"})
+     * @Groups({"Club:read","Club:write","user:read"})
      *
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"Club:read","Club:write"})
+     * @Groups({"Club:read","Club:write","user:read"})
      */
     private $city;
 

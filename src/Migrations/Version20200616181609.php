@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200616152114 extends AbstractMigration
+final class Version20200616181609 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,9 +22,10 @@ final class Version20200616152114 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE user ADD club_id INT NOT NULL, CHANGE roles roles JSON NOT NULL');
-        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D64961190A32 FOREIGN KEY (club_id) REFERENCES club (id)');
-        $this->addSql('CREATE INDEX IDX_8D93D64961190A32 ON user (club_id)');
+        $this->addSql('ALTER TABLE code_active ADD user_id INT NOT NULL');
+        $this->addSql('ALTER TABLE code_active ADD CONSTRAINT FK_3498A4A0A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_3498A4A0A76ED395 ON code_active (user_id)');
+        $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -32,8 +33,9 @@ final class Version20200616152114 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D64961190A32');
-        $this->addSql('DROP INDEX IDX_8D93D64961190A32 ON user');
-        $this->addSql('ALTER TABLE user DROP club_id, CHANGE roles roles LONGTEXT CHARACTER SET utf8mb4 NOT NULL COLLATE `utf8mb4_bin`');
+        $this->addSql('ALTER TABLE code_active DROP FOREIGN KEY FK_3498A4A0A76ED395');
+        $this->addSql('DROP INDEX UNIQ_3498A4A0A76ED395 ON code_active');
+        $this->addSql('ALTER TABLE code_active DROP user_id');
+        $this->addSql('ALTER TABLE user CHANGE roles roles LONGTEXT CHARACTER SET utf8mb4 NOT NULL COLLATE `utf8mb4_bin`');
     }
 }

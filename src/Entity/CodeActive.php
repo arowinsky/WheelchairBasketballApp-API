@@ -29,6 +29,13 @@ class CodeActive
      */
     private $code;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="codeActive", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"codeActive:read","codeActive:write"})
+     */
+    private $User;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -42,6 +49,18 @@ class CodeActive
     public function setCode(string $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(User $User): self
+    {
+        $this->User = $User;
 
         return $this;
     }
