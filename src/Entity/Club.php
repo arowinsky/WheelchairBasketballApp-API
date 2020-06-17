@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *   @ApiResource(
@@ -39,18 +40,36 @@ class Club
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"Club:read","Club:write","user:read"})
-     *
+     * @Assert\NotBlank(
+     *     message="Name not be empty"
+     * )
+     * @Assert\Length(
+     *     min="3",
+     *     max="255",
+     *     minMessage="Min lenght is 3 chars",
+     *     maxMessage="Max lenght is 255 chars",
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"Club:read","Club:write","user:read"})
+     *      * @Assert\NotBlank(
+     *     message="City not be empty"
+     * )
+     * @Assert\Length(
+     *     min="3",
+     *     minMessage="Min lenght is 3 chars",
+     *     max="255",
+     *     maxMessage="Max lenght is 255 chars",
+     * )
      */
     private $city;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="club")
+     * @Groups({"Clubs:read"})
      */
     private $User;
 

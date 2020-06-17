@@ -6,9 +6,11 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -25,6 +27,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiFilter(SearchFilter::class,properties={"firstname":"partial", "lastname":"partial",
  *     "email":"partial","club":"partial"
  *     })
+ * @UniqueEntity(fields={"email"})
  */
 class User implements UserInterface
 {
@@ -39,6 +42,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"user:read","user:write","codeActive:read"})
+     * @Assert\NotBlank(
+     *     message="Email not be empty"
+     * )
+     * @Assert\Email(
+     *     message="Wrong Email"
+     * )
      */
     private $email;
 
@@ -52,19 +61,39 @@ class User implements UserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Groups({"user:write"})
+     * @Assert\NotBlank(
+     *     message="Password not be empty"
+     * )
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=50)
      * @Groups({"user:read","user:write"})
-     *
+     * @Assert\NotBlank(
+     *     message="lastname not be empty"
+     * )
+     * @Assert\Length(
+     *     min="3",
+     *     minMessage="Min length firstname is 3 chars",
+     *     max="50",
+     *     maxMessage="Max length firstname is 50 chars",
+     *  )
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Groups({"user:read","user:write"})
+     * @Assert\NotBlank(
+     *     message="lastname not be empty"
+     * )
+     *  @Assert\Length(
+     *     min="3",
+     *     minMessage="Min length lastname is 3 chars",
+     *     max="100",
+     *     maxMessage="Max length lastname is 100 chars",
+     *  )
      */
     private $lastname;
 

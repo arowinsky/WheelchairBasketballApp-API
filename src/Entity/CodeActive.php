@@ -28,6 +28,7 @@ class CodeActive
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"codeActive:read"})
      */
     private $id;
 
