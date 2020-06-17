@@ -13,6 +13,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
+ *     collectionOperations={"get","post"},
+ *     itemOperations={"get","put","delete","patch"},
  *     normalizationContext={"groups"={"user:read"},"swagger_definition_name"="Read"},
  *     denormalizationContext={"groups"={"user:write"},"swagger_definition_name"="Write"},
  *     shortName="User",
@@ -20,7 +22,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     "formats"={"jsonld","json","html"}
  *     }
  * )
- * @ApiFilter(SearchFilter::class,properties={"firstname":"partial", "lastname":"partial"})
+ * @ApiFilter(SearchFilter::class,properties={"firstname":"partial", "lastname":"partial",
+ *     "email":"partial","club":"partial"
+ *     })
  */
 class User implements UserInterface
 {
@@ -34,45 +38,45 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     *@Groups({"user:read","user:write","codeActive:read"})
+     * @Groups({"user:read","user:write","codeActive:read"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
-     *@Groups({"user:read","user:write",})
+     * @Groups({"user:read","user:write",})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     *@Groups({"user:write"})
+     * @Groups({"user:write"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=50)
-     *@Groups({"user:read","user:write"})
+     * @Groups({"user:read","user:write"})
      *
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=100)
-     *@Groups({"user:read","user:write"})
+     * @Groups({"user:read","user:write"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="boolean")
-     *@Groups({"user:read","user:write"})
+     * @Groups({"user:read","user:write"})
      */
     private $statusAccaunt;
 
     /**
      * @ORM\Column(type="boolean")
-     *@Groups({"user:read","user:write"})
+     * @Groups({"user:read","user:write"})
      */
     private $statusPlayer;
 

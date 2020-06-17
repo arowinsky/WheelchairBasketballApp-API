@@ -2,16 +2,24 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CodeActiveRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
+ *     collectionOperations={"get","post"},
+ *     itemOperations={"get","put","delete","patch"},
  *     normalizationContext={"groups"={"codeActive:read"}},
- *     denormalizationContext={"groups"={"codeActive:write"}}
+ *     denormalizationContext={"groups"={"codeActive:write"}},
+ *     shortName="CodeActive",
+ *     attributes={"pagination_items_per_page"=10,
+ *     "formats"={"jsonld","json","html"}}
  * )
+ * @ApiFilter(SearchFilter::class,properties={"code":"partial" ,"User":"partial"})
  * @ORM\Entity(repositoryClass=CodeActiveRepository::class)
  */
 class CodeActive
