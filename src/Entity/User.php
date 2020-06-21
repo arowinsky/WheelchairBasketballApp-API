@@ -101,13 +101,13 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      * @Groups({"user:read","user:write"})
      */
-    private $statusAccaunt;
+    private $statusAccaunt = false;
 
     /**
      * @ORM\Column(type="boolean")
      * @Groups({"user:read","user:write"})
      */
-    private $statusPlayer;
+    private $statusPlayer = false;
 
     /**
      * @ORM\ManyToOne(targetEntity=Club::class, inversedBy="User")
@@ -155,7 +155,7 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_PLAYER';
 
         return array_unique($roles);
     }
