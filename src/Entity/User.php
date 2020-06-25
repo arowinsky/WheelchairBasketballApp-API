@@ -55,7 +55,7 @@ class User implements UserInterface
      * @ORM\Column(type="json")
      * @Groups({"user:read","user:write",})
      */
-    private $roles = [];
+    private $roles = ['ROLE_PLAYER'];
 
     /**
      * @var string The hashed password
