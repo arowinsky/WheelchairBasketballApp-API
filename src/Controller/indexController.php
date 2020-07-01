@@ -14,6 +14,6 @@ class indexController extends AbstractController
      * @Route("\")
      */
         public function index(){
-            return new Response('Hello');
+            return new Response('Hello user');
         }
 }
