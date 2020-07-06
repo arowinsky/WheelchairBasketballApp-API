@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class indexController extends AbstractController
 {
     /**
-     * @Route("\")
+     * @Route("", name="app_index")
      */
         public function index(){
             return new Response('Hello user');
