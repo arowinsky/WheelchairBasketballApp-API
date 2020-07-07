@@ -16,12 +16,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   @ApiResource(
  *     collectionOperations={"get","post"},
  *     itemOperations={"get","put","delete","patch"},
+ *     collectionOperations={"get"={"access_control"="is_granted('ROLE_PLAYER')"},
+ *     "post"={"access_control"="is_granted('ROLE_PLAYER')"}
+ *          },
  *     normalizationContext={"groups"={"Club:read"}},
  *     denormalizationContext={"groups"={"Club:write"}},
  *     shortName="Club",
  *     attributes={"pagination_items_per_page"=10,
  *     "formats"={"jsonld","json","html"}
  *     }
+ *
 
  * )
  * @ApiFilter(SearchFilter::class,properties={"name":"partial", "city":"partial"})

@@ -5,5 +5,15 @@ api_platform:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
-    enable_docs: false
-    enable_entrypoint: false
+    formats:
+        jsonld:
+            mime_types:
+                - application/ld+json
+        json:
+            mime_types:
+               - application/json
+        html:
+            mime_types:
+                - text/html
+#    enable_docs: false
+#    enable_entrypoint: false
