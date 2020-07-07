@@ -15,6 +15,7 @@ mkdir config\jwt
 Set JWT_PASSPHRASE in .env
 
 Next create private and public key
+
 When generating the key, you must enter the same password as JWT PASSPHRASE
 ```bash
 openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
