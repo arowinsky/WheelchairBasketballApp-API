@@ -31,6 +31,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
+    public function __toString()
+    {
+        return (string) $this->getId();
+    }
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
